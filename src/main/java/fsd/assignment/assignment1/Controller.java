@@ -108,7 +108,7 @@ public class Controller {
 
         //deleting a student
         /* TODO: create a new listContextMenu -> defined above in the variables
-        */
+         */
         listContextMenu = null;
         /* TODO: create a MenuItem object so that when the user right-clicks a studId
                  the word Delete? appears
@@ -137,7 +137,7 @@ public class Controller {
             @Override
             public void handle(ActionEvent event) {
                 /* TODO: get the item to be edited and call the editStudent()
-                */
+                 */
             }
         });
 
@@ -170,7 +170,7 @@ public class Controller {
         }); //end of setting the cell factory
 
         /* TODO: ensure that the studId's are sorted according to year of study in ascending order
-        */
+         */
         SortedList<Student> sortedByYear = null;
 
         /* TODO: step 1 - set items using the sorted list
@@ -184,7 +184,7 @@ public class Controller {
         /* TODO: make use of event to determine each choice and assign each module choice to
                  choice1, choice2 and choice3
          */
-        }
+    }
 
 
     @FXML
@@ -202,7 +202,7 @@ public class Controller {
         //do the if...here
 
         //do the else...here, first ensure that the validateStudent label is clear of any text
-            studentToAdd = null;
+        studentToAdd = null;
         //use the getInstance() to addStudentData()
         //select the student that has been added so that it is highlighted on the list
     }
@@ -235,7 +235,7 @@ public class Controller {
                  the title must state "Edit a student's details"
                  the header text must state: Editing student Id: xxx - where xxx is the studId
          */
-         //insert the 3 lines of code here
+        //insert the 3 lines of code here
         /* TODO: complete the FXMLLoader statement
          */
         FXMLLoader fxmlLoader = null;
@@ -244,8 +244,8 @@ public class Controller {
         //insert the line of code here
         //remove the comments and complete the try...catch
         //try {
-            /* TODO: load the fxml
-             */
+        /* TODO: load the fxml
+         */
         //} catch (IOException event) {
             /* TODO: print an appropriate message if it cannot be loaded
                      print stacktrace
@@ -253,15 +253,15 @@ public class Controller {
         //    return;
         //}
         /* TODO: complete the ec controller statement
-             */
+         */
         EditStudentController ec = null;
         /* TODO: use the ec object to call setToEdit()
-             */
+         */
         //insert the line of code here
         /* TODO: create the OK and CANCEL buttons using dialog
          */
         //insert the 2 lines of code here
-       //the result object with the showAndWait() has been completed for you
+        //the result object with the showAndWait() has been completed for you
         Optional<ButtonType> result = dialog.showAndWait();
 
          /* TODO: verify if there is an edit to complete, complete the editStudent call processEdit()
@@ -269,8 +269,8 @@ public class Controller {
          */
         //remove the comments and complete the if...
         //if (xxx) {
-            Student editStudent = null;
-            //select the edited studId here
+        Student editStudent = null;
+        //select the edited studId here
         //}
     }
 }

@@ -16,11 +16,11 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.ChoiceBox?>
 <!--include a BorderPane here-->
-<BorderPane >
+<BorderPane>
     <!--include a top section-->
     <top>
         <!--include a GridPane<> with a vertical and horizontal gap of 20-->
-        <GridPane > <!--these correspond to the variables in the Controller-->
+        <GridPane> <!--these correspond to the variables in the Controller-->
             <!--include the labels, textfields and choicebox elements here-->
             <!--include the Button<> with the onAction="addStudentData", no fx:id is required-->
             <!--the last element is the <Label> you may not notice this on the image-->
@@ -28,11 +28,11 @@
     </top>
 
     <left>
-        <VBox >
+        <VBox>
             <Label>
 
             </Label>
-            <ListView fx:id="studentListView" />
+            <ListView fx:id="studentListView"/>
             <Label>
 
             </Label>

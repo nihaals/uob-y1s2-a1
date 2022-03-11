@@ -13,7 +13,7 @@ import java.util.Iterator;
 
 public class StudentData {
     /* TODO: include an instance of StudentData
-    */
+     */
     private static StudentData instance;
     private static String filename = "student-data.txt";
 
@@ -21,13 +21,13 @@ public class StudentData {
 
     public static StudentData getInstance() {
         /* TODO: complete the getter for the instance created
-        */
+         */
         return null;
     }
 
     public ObservableList<Student> getStudents() {
         /* TODO: complete the getter for the observable arraylist
-        */
+         */
         return null;
     }
 
@@ -92,12 +92,13 @@ public class StudentData {
         }
     }
 
-    public void addStudentData(Student studentToAdd){
+    public void addStudentData(Student studentToAdd) {
         /* TODO: complete the addStudentData so that a student can be added
                  to students
          */
     }
-    public void deleteStudent(Student stu){
+
+    public void deleteStudent(Student stu) {
         /* TODO: complete the addStudentData so that a student can be removed
                  from students
          */
