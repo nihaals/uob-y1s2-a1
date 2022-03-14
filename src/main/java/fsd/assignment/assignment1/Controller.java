@@ -4,27 +4,17 @@ import fsd.assignment.assignment1.datamodel.Student;
 import fsd.assignment.assignment1.datamodel.StudentData;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Optional;
 
 public class Controller {
@@ -91,9 +81,12 @@ public class Controller {
         studentListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Student>() {
             @Override
             public void changed(ObservableValue<? extends Student> observable, Student oldValue, Student newValue) {
-                /* TODO: complete the code so that if a studId is selected then the changed()
-                         should ensure that the other fields related to the selected item appear at the bottom of the window
-                */
+                if (newValue != null) {
+                    yearStudyView.setText(newValue.getYearOfStudy());
+                    mod1View.setText(newValue.getModule1());
+                    mod2View.setText(newValue.getModule2());
+                    mod3View.setText(newValue.getModule3());
+                }
             }
         });
         //the setOnAction ensures that when a ChoiceBox is selected the getChoice() grabs the selected choice
@@ -101,43 +94,33 @@ public class Controller {
         mod2Choice.setOnAction(this::getChoice);
         mod3Choice.setOnAction(this::getChoice);
 
-        /* TODO: the array declared above for modChoices must be added to each Choicebox
-                 include the code here to addAll()
-        */
         //insert the code to addAll() the modChoices [] to each ChoiceBox here
+        mod1Choice.getItems().addAll(modChoices);
+        mod2Choice.getItems().addAll(modChoices);
+        mod3Choice.getItems().addAll(modChoices);
 
         //deleting a student
-        /* TODO: create a new listContextMenu -> defined above in the variables
-         */
-        listContextMenu = null;
-        /* TODO: create a MenuItem object so that when the user right-clicks a studId
-                 the word Delete? appears
-         */
-        MenuItem deleteStudent = null;
+        listContextMenu = new ContextMenu();
+        MenuItem deleteStudent = new MenuItem("Delete?");
 
         deleteStudent.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                /* TODO: get the item to be deleted and call the deleteStudent()
-                 */
+                Student student = studentListView.getSelectionModel().getSelectedItem();
+                deleteStudent(student);
             }
         });
 
         //editing a student
-        /* TODO: create a new listContextMenu -> defined above in the variables
-         */
-        listContextMenu = null;
+        listContextMenu = new ContextMenu();
 
-        /* TODO: create a MenuItem object so that when the user right-clicks a studId
-                 the word Edit?? appears
-         */
-        MenuItem editStudent = null;
+        MenuItem editStudent = new MenuItem("Edit?");
 
         editStudent.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                /* TODO: get the item to be edited and call the editStudent()
-                 */
+                Student student = studentListView.getSelectionModel().getSelectedItem();
+                editStudent(student);
             }
         });
 
@@ -151,9 +134,12 @@ public class Controller {
                 ListCell<Student> cell = new ListCell<Student>() {
                     @Override
                     protected void updateItem(Student stu, boolean empty) {
-                        /* TODO: ensure that the studentListView has studId's or not when
-                                 the delete a student takes place
-                         */
+                        super.updateItem(stu, empty);
+                        if (empty) {
+                            setText(null);
+                        } else {
+                            setText(stu.getStudId());
+                        }
                     }//end of update()
                 };
                 //code included as part of the delete
@@ -169,108 +155,91 @@ public class Controller {
             }
         }); //end of setting the cell factory
 
-        /* TODO: ensure that the studId's are sorted according to year of study in ascending order
-         */
-        SortedList<Student> sortedByYear = null;
+        SortedList<Student> sortedByYear = new SortedList<>(StudentData.getInstance().getStudents(), new Comparator<Student>() {
+            @Override
+            public int compare(Student o1, Student o2) {
+                return o1.getYearOfStudy().compareTo(o2.getYearOfStudy());
+            }
+        });
 
-        /* TODO: step 1 - set items using the sorted list
-                 step 2 - ensure that only one studId can be selected at one time
-                 step 3 - ensure that the first studId is highlighted when the application commences
-         */
-
+        studentListView.setItems(sortedByYear);
+        studentListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        studentListView.getSelectionModel().selectFirst();
     }
 
     public void getChoice(ActionEvent event) {
-        /* TODO: make use of event to determine each choice and assign each module choice to
-                 choice1, choice2 and choice3
-         */
+        if (event.getSource() == mod1Choice) {
+            choice1 = mod1Choice.getValue();
+        } else if (event.getSource() == mod2Choice) {
+            choice2 = mod2Choice.getValue();
+        } else if (event.getSource() == mod3Choice) {
+            choice3 = mod3Choice.getValue();
+        }
     }
 
 
     @FXML
     public void addStudentData() {
-        /* TODO: get the values from the textfields
-         */
-        String studIdS = null;
-        String yearStudyS = null;
-        /* TODO: validate whether the studIdS and yearStudyS are occupied, BOTH have to be occupied
-                 for the add to take place, if one or both are unoccupied print the following message
-                 in the validateStudent label -> message to be printed is
-                 "Error: cannot add student if studId or year of study not filled in"
-                 If both are occupied then go ahead with the addStudentData()
-         */
+        String studIdS = studId.getText();
+        String yearStudyS = yearStudy.getText();
         //do the if...here
-
-        //do the else...here, first ensure that the validateStudent label is clear of any text
-        studentToAdd = null;
-        //use the getInstance() to addStudentData()
-        //select the student that has been added so that it is highlighted on the list
+        if (studIdS.isEmpty() || yearStudyS.isEmpty()) {
+            validateStudent.setText("Error: cannot add student if studId or year of study not filled in");
+        } else {
+            //do the else...here, first ensure that the validateStudent label is clear of any text
+            validateStudent.setText("");
+            studentToAdd = new Student(studIdS, yearStudyS, choice1, choice2, choice3);
+            //use the getInstance() to addStudentData()
+            StudentData.getInstance().addStudentData(studentToAdd);
+            //select the student that has been added so that it is highlighted on the list
+            studentListView.getSelectionModel().select(studentToAdd);
+        }
     }
 
     public void deleteStudent(Student stu) {
-        /* TODO: create an alert object to confirm that a user wants to delete
-         */
-        Alert alert = null;
-        /* TODO: set the title with "Delete a student from the list"
-         */
-        //insert the line of code here
-        /* TODO: set the header text with "Deleting student " xxx - where xxx is the studId
-         */
-        //insert the line of code here
-        /* TODO: have a message that asks the user "Are you sure you want to delete the student?"
-         */
-        //insert the line of code here
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete a student from the list");
+        alert.setHeaderText("Deleting student " + stu.getStudId());
+        alert.setContentText("Are you sure you want to delete the student?");
         //the result object with the showAndWait() has been completed for you
         Optional<ButtonType> result = alert.showAndWait();
-        /* TODO: include a test to verify if the result is present and whether the OK button was
-                 pressed, if so go ahead and call the deleteStudent()
-         */
-        //insert the 2 lines of code here
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            StudentData.getInstance().deleteStudent(stu);
+        }
     }
 
     public void editStudent(Student stu) {
         //the dialog object has been completed for you
         Dialog<ButtonType> dialog = new Dialog<>();
-        /* TODO: use the dialog object to set the owner, the title and the header text
-                 the title must state "Edit a student's details"
-                 the header text must state: Editing student Id: xxx - where xxx is the studId
-         */
         //insert the 3 lines of code here
-        /* TODO: complete the FXMLLoader statement
-         */
-        FXMLLoader fxmlLoader = null;
-        /* TODO: use the fxmlLoader to set the edit-students.fxml
-         */
+        dialog.initOwner(mainWindow.getScene().getWindow());
+        dialog.setTitle("Edit a student's details");
+        dialog.setHeaderText("Editing student Id: " + stu.getStudId());
+        FXMLLoader fxmlLoader = new FXMLLoader();
         //insert the line of code here
+        fxmlLoader.setLocation(getClass().getResource("edit-students.fxml"));
         //remove the comments and complete the try...catch
-        //try {
-        /* TODO: load the fxml
-         */
-        //} catch (IOException event) {
-            /* TODO: print an appropriate message if it cannot be loaded
-                     print stacktrace
-             */
-        //    return;
-        //}
-        /* TODO: complete the ec controller statement
-         */
-        EditStudentController ec = null;
-        /* TODO: use the ec object to call setToEdit()
-         */
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException event) {
+            System.out.println("Could not load the dialog");
+            event.printStackTrace();
+            return;
+        }
+        EditStudentController ec = fxmlLoader.getController();
         //insert the line of code here
-        /* TODO: create the OK and CANCEL buttons using dialog
-         */
+        ec.setToEdit(stu);
         //insert the 2 lines of code here
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
         //the result object with the showAndWait() has been completed for you
         Optional<ButtonType> result = dialog.showAndWait();
 
-         /* TODO: verify if there is an edit to complete, complete the editStudent call processEdit()
-                  ensure that the student edited is selected
-         */
         //remove the comments and complete the if...
-        //if (xxx) {
-        Student editStudent = null;
-        //select the edited studId here
-        //}
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            Student editStudent = ec.processEdit(stu);
+            //select the edited studId here
+            studentListView.getSelectionModel().select(editStudent);
+        }
     }
 }

@@ -1,17 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
 <!--create a DialogPane and include the appropriate controller-->
-<DialogPane>
+
+<DialogPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml" fx:controller="fsd.assignment.assignment1.EditStudentController">
     <content>
-        <GridPane vgap="20" hgap="20">
-            <Label text="Year of Study" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <Label text="Module Option 1" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-            <Label text="Module Option 2" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
-            <Label text="Module Option 3" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
-            <!--make use of the EditStudentController to complete the rest of the fxml-->
+        <GridPane hgap="20" vgap="20">
+            <Label text="Year of Study" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <Label text="Module Option 1" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label text="Module Option 2" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+            <Label text="Module Option 3" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+         <Label fx:id="yearStudyDisplay" text="[PH] YoS" GridPane.rowIndex="1" />
+         <Label fx:id="mod1Edit" layoutX="21.0" layoutY="58.0" text="[PH] CO1" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         <Label fx:id="mod2Edit" layoutX="115.0" layoutY="58.0" text="[PH] CO2" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+         <Label fx:id="mod3Edit" layoutX="224.0" layoutY="58.0" text="[PH] CO3" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+         <Label text="Module Option 1" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         <Label layoutX="115.0" layoutY="95.0" text="Module Option 2" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+         <Label layoutX="224.0" layoutY="95.0" text="Module Option 3" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+         <ChoiceBox fx:id="mod1ChoiceEdit" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         <ChoiceBox fx:id="mod2ChoiceEdit" layoutX="115.0" layoutY="132.0" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+         <ChoiceBox fx:id="mod3ChoiceEdit" layoutX="285.0" layoutY="132.0" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
         </GridPane>
     </content>
 </DialogPane>
-

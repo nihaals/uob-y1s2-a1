@@ -12,23 +12,17 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 
 public class StudentData {
-    /* TODO: include an instance of StudentData
-     */
-    private static StudentData instance;
+    private static StudentData instance = new StudentData();
     private static String filename = "student-data.txt";
 
     private ObservableList<Student> students;
 
     public static StudentData getInstance() {
-        /* TODO: complete the getter for the instance created
-         */
-        return null;
+        return instance;
     }
 
     public ObservableList<Student> getStudents() {
-        /* TODO: complete the getter for the observable arraylist
-         */
-        return null;
+        return students;
     }
 
     public void loadStudentData() throws IOException {
@@ -40,23 +34,16 @@ public class StudentData {
 
         try {
             while ((input = br.readLine()) != null) {
-                /* TODO: split each input line using a tab
-                 */
-                String[] studentItem;
-                /* TODO: using the String create each piece of data so that all the instance variables
-                         have a value accordingly
-                 */
-                String studId;
-                String yearStudy;
-                String mod1;
-                String mod2;
-                String mod3;
-                /* TODO: complete the call to the constructor by passing in the parameters
-                 */
-                Student studDataItem;
-                /* TODO: add the studentDataItem to the students array
-                 */
-                //>include the statement here
+                String[] studentItem = input.split("\t");
+
+                String studId = studentItem[0];
+                String yearStudy = studentItem[1];
+                String mod1 = studentItem[2];
+                String mod2 = studentItem[3];
+                String mod3 = studentItem[4];
+
+                Student studDataItem = new Student(studId, yearStudy, mod1, mod2, mod3);
+                students.add(studDataItem);
             }
         } finally {
             if (br != null) {
@@ -69,21 +56,11 @@ public class StudentData {
         Path path = Paths.get(filename);
         BufferedWriter bw = Files.newBufferedWriter(path);
         try {
-            /* TODO: complete the iterator
-             */
-            Iterator<Student> it = null;
+            Iterator<Student> it = students.iterator();
             while (it.hasNext()) {
-                /* TODO: accept the next item from the iterated list
-                 */
-                Student item = null;
-                /* TODO: complete the write() using String.format
-                         remember to separate each string with a tab
-                 */
-                bw.write("");
-                /* TODO: once a student item is written to the file ensure that
-                         the next item is stored on a new line
-                 */
-                //>insert statement here
+                Student item = it.next();
+                bw.write(String.format("%s\t%s\t%s\t%s\t%s", item.getStudId(), item.getYearOfStudy(), item.getModule1(), item.getModule2(), item.getModule3()));
+                bw.newLine();
             }
         } finally {
             if (bw != null) {
@@ -93,14 +70,10 @@ public class StudentData {
     }
 
     public void addStudentData(Student studentToAdd) {
-        /* TODO: complete the addStudentData so that a student can be added
-                 to students
-         */
+        students.add(studentToAdd);
     }
 
     public void deleteStudent(Student stu) {
-        /* TODO: complete the addStudentData so that a student can be removed
-                 from students
-         */
+        students.remove(stu);
     }
 }
